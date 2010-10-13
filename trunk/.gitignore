@@ -1,0 +1,6 @@
+skein_test
+*.o
+*.orig
+*~
+*.swp
+*.DS_Store
