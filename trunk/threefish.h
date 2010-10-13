@@ -37,4 +37,18 @@ void Threefish_decrypt(Threefish_Ctxt_t *ctx, const uint64_t *c, uint64_t *out);
 
 uint64_t RotL_64(uint64_t x, uint16_t N);
 uint64_t RotR_64(uint64_t x, uint16_t N);
+
+#if     BIG_ENDIAN
+#define ByteSwap64(words)                       \
+  ( (( ((u64b_t)(words))       & 0xFF) << 56) |   \
+    (((((u64b_t)(words)) >> 8) & 0xFF) << 48) |   \
+    (((((u64b_t)(words)) >>16) & 0xFF) << 40) |   \
+    (((((u64b_t)(words)) >>24) & 0xFF) << 32) |   \
+    (((((u64b_t)(words)) >>32) & 0xFF) << 24) |   \
+    (((((u64b_t)(words)) >>40) & 0xFF) << 16) |   \
+    (((((u64b_t)(words)) >>48) & 0xFF) <<  8) |   \
+    (((((u64b_t)(words)) >>56) & 0xFF)      ) )
+#else
+#define ByteSwap64(words)  (words)
+#endif
 #endif  /* ifndef _THREEFISH_H_ */
