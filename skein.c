@@ -53,7 +53,6 @@ void Skein_Rand_Seed(Skein_Ctxt_t *ctx, uint8_t *seed, uint32_t seedBytes) {
   uint8_t state[64];
   if (ctx->bCnt == 0) {
     memset(state,0,64);        /* no existing state; set chaining vars to zero */
-    Threefish_init(&ctx->TF);
   } else {
     memcpy(state, ctx->TF.key, 64);
   }
@@ -86,8 +85,6 @@ void Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen, const uint8_t *key, uint
         uint64_t  w[8];
         } cfg;                              /* config block */
         
-    Threefish_init(&ctx->TF);
-
     /* compute the initial chaining values ctx->TF.key[], based on key */
     if (keyBytes == 0)                          /* is there a key? */
         {                                   
