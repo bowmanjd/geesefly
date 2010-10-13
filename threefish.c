@@ -50,8 +50,7 @@ void Threefish_prep(Threefish_Ctxt_t *ctx) {
     ctx->tweak[2] = ctx->tweak[0] ^ ctx->tweak[1];
 }
 
-void Threefish_encrypt(Threefish_Ctxt_t *ctx, const uint64_t *p, uint64_t *out, int feed)
-{
+void Threefish_encrypt(Threefish_Ctxt_t *ctx, const uint64_t *p, uint64_t *out, int feed) {
     uint64_t X[8];
     int8_t i,m,n,r,s,y;
 
@@ -84,8 +83,7 @@ void Threefish_encrypt(Threefish_Ctxt_t *ctx, const uint64_t *p, uint64_t *out, 
     }
 }
 
-void Threefish_decrypt(Threefish_Ctxt_t *ctx, const uint64_t *c, uint64_t *out)
-{
+void Threefish_decrypt(Threefish_Ctxt_t *ctx, const uint64_t *c, uint64_t *out) {
     uint64_t X[8];
     int8_t i,m,n,r,s,y;
 
