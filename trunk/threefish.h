@@ -50,5 +50,7 @@ uint64_t RotR_64(uint64_t x, uint16_t N);
     (((((u64b_t)(words)) >>56) & 0xFF)      ) )
 #else
 #define ByteSwap64(words)  (words)
+#define words2bytes(dst08,src64,bCnt) memcpy(dst08,src64,bCnt)
+#define bytes2words(dst64,src08,wCnt) memcpy(dst64,src08,8*(wCnt))
 #endif
 #endif  /* ifndef _THREEFISH_H_ */
