@@ -34,6 +34,38 @@ uint8_t PERM[] = {0,1,2,3,4,5,6,7,
                   4,1,6,3,0,5,2,7,
                   6,1,0,7,2,5,4,3};
 
+#if     BIGENDIAN
+uint64_t ByteSwap64(uint64_t words);
+    return  (( words       & 0xFF) << 56) |
+            (((words >> 8) & 0xFF) << 48) |
+            (((words >>16) & 0xFF) << 40) |
+            (((words >>24) & 0xFF) << 32) |
+            (((words >>32) & 0xFF) << 24) |
+            (((words >>40) & 0xFF) << 16) |
+            (((words >>48) & 0xFF) <<  8) |
+            (((words >>56) & 0xFF)      ) ;
+
+void     words2bytes(uint8_t *dst,const uint64_t *src, uint16_t length) {
+    uint16_t n;
+
+    for (n=0;n<length;n++)
+        dst[n] = (uint8_t) (src[n>>3] >> (8*(n&7)));
+}
+
+void     bytes2words(uint64_t *dst,const uint8_t *src, uint16_t length) {
+    uint16_t n;
+
+    for (n=0;n<8*length;n+=8)
+        dst[n/8] = (((uint64_t) src[n  ])      ) +
+                   (((uint64_t) src[n+1]) <<  8) +
+                   (((uint64_t) src[n+2]) << 16) +
+                   (((uint64_t) src[n+3]) << 24) +
+                   (((uint64_t) src[n+4]) << 32) +
+                   (((uint64_t) src[n+5]) << 40) +
+                   (((uint64_t) src[n+6]) << 48) +
+                   (((uint64_t) src[n+7]) << 56) ;
+    }
+#endif
 /* 64-bit rotate left */
 uint64_t RotL_64(uint64_t x, uint16_t N) {
   return (x << (N & 63)) | (x >> ((64-N) & 63));

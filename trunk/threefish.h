@@ -38,16 +38,10 @@ void Threefish_decrypt(Threefish_Ctxt_t *ctx, const uint64_t *c, uint64_t *out);
 uint64_t RotL_64(uint64_t x, uint16_t N);
 uint64_t RotR_64(uint64_t x, uint16_t N);
 
-#if     BIG_ENDIAN
-#define ByteSwap64(words)                       \
-  ( (( ((u64b_t)(words))       & 0xFF) << 56) |   \
-    (((((u64b_t)(words)) >> 8) & 0xFF) << 48) |   \
-    (((((u64b_t)(words)) >>16) & 0xFF) << 40) |   \
-    (((((u64b_t)(words)) >>24) & 0xFF) << 32) |   \
-    (((((u64b_t)(words)) >>32) & 0xFF) << 24) |   \
-    (((((u64b_t)(words)) >>40) & 0xFF) << 16) |   \
-    (((((u64b_t)(words)) >>48) & 0xFF) <<  8) |   \
-    (((((u64b_t)(words)) >>56) & 0xFF)      ) )
+#if     BIGENDIAN
+uint64_t ByteSwap64(uint64_t words);
+void     words2bytes(uint8_t *dst,const uint64_t *src, uint16_t length);
+void     bytes2words(uint64_t *dst,const uint8_t *src, uint16_t length);
 #else
 #define ByteSwap64(words)  (words)
 #define words2bytes(dst08,src64,bCnt) memcpy(dst08,src64,bCnt)
