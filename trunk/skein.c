@@ -15,8 +15,9 @@
     permissions and limitations under the License.
 */
 
-#include <string.h>      /* get the memcpy/memset functions */
+#include <string.h>
 #include <stdio.h>
+#include "skein_endian.h"
 #include "skein.h"
 
 void Skein_Start_New_Type(Skein_Ctxt_t *ctx, uint64_t type) {
