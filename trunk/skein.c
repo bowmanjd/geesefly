@@ -28,29 +28,26 @@ void Skein_Start_New_Type(Skein_Ctxt_t *ctx, uint64_t type) {
 
 /*****************************************************************/
 /* External function to process blkCnt (nonzero) full block(s) of data. */
-void Skein_Process_Block(Skein_Ctxt_t *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd)
-    {
-    uint64_t  w[8];                           /* local copy of input block */
+void Skein_Process_Block(Skein_Ctxt_t *ctx, const uint8_t *blkPtr,
+                         uint32_t blkCnt, uint32_t byteCntAdd) {
+    uint64_t  w[8];  /* local copy of input block */
     do  {
-        ctx->TF.tweak[0] += byteCntAdd;                /* update processed length */
-
+        ctx->TF.tweak[0] += byteCntAdd;  /* update processed length */
         bytes2words(w,blkPtr,8); /* copy input block */
-
         Threefish_prep(&ctx->TF);
-
         Threefish_encrypt(&ctx->TF, w, ctx->TF.key, 1);
-        
-        ctx->TF.tweak[1] &= ((uint64_t) 3 << 62)-1; /* 0xbfffffffffffffff (~SKEIN_T1_FLAG_FIRST) */
+        /* AND the first tweak value with (~SKEIN_T1_FLAG_FIRST) */
+        ctx->TF.tweak[1] &= 0xbfffffffffffffffULL;
         blkPtr += 64;
-        }
-    while (--blkCnt);
-    }
+    } while (--blkCnt);
+}
 
 /*****************************************************************/
 /*     512-bit Skein                                             */
 /*****************************************************************/
 
-void Skein_Rand_Seed(Skein_Ctxt_t *ctx, uint8_t *seed, uint32_t seedBytes) {
+void Skein_Rand_Seed(Skein_Ctxt_t *ctx, uint8_t *seed,
+                     uint32_t seedBytes) {
   uint8_t state[64];
   if (ctx->bCnt == 0) {
     memset(state,0,64);        /* no existing state; set chaining vars to zero */
@@ -78,23 +75,22 @@ void Skein_Rand(Skein_Ctxt_t *ctx, uint32_t requestBytes, uint8_t *out) {
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 /* init the context for a hashing operation  */
-void Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen, const uint8_t *key, uint32_t keyBytes)
-    {
+void Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen,
+                const uint8_t *key, uint32_t keyBytes) {
     union
         {
         uint8_t  b[64];
         uint64_t  w[8];
-        } cfg;                              /* config block */
+        } cfg;  /* config block */
         
-    /* compute the initial chaining values ctx->TF.key[], based on key */
-    if (keyBytes == 0)                          /* is there a key? */
-        {                                   
-        memset(ctx->TF.key,0,64);        /* no key: use all zeroes as key for config block */
-        }
-    else                                        /* here to pre-process a key */
-        {
+    /* compute the initial chaining values
+     * ctx->TF.key[], based on key */
+    if (keyBytes == 0) {                                   
+        /* no key: use all zeroes as key for config block */
+        memset(ctx->TF.key,0,64);
+    } else {  /* here to pre-process a key */
         /* do a mini-Init right here */
-        ctx->hashBitLen=512;     /* set output hash bit count = state size */
+        ctx->hashBitLen=512;
         
         Skein_Start_New_Type(ctx,KEY); /* Set new tweak for key derivation */
 
@@ -111,7 +107,6 @@ void Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen, const uint8_t *key, uint
     memset(&cfg.w,0,64);             /* pre-pad cfg.w[] with zeroes */
     cfg.w[0] = ByteSwap64(SKEIN_SCHEMA_VER); // 0x7f3bfc5
     cfg.w[1] = ByteSwap64(hashBitLen);        /* hash result length in bits */
-    //cfg.w[2] = 0;  /* I don't need tree hashing */
 
     /* compute the initial chaining values from config block */
     Skein_Process_Block(ctx,cfg.b,1,32); /* 32 is SKEIN_CFG_STR_LEN */
