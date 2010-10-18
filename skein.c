@@ -33,7 +33,7 @@ void Skein_Process_Block(Skein_Ctxt_t *ctx,const uint8_t *blkPtr,uint32_t blkCnt
     do  {
         ctx->TF.tweak[0] += byteCntAdd;                /* update processed length */
 
-        memcpy(w,blkPtr,64); /* copy input block */
+        bytes2words(w,blkPtr,8); /* copy input block */
 
         Threefish_prep(&ctx->TF);
 
