@@ -35,7 +35,7 @@ uint8_t PERM[] = {0,1,2,3,4,5,6,7,
                   6,1,0,7,2,5,4,3};
 
 #if     BIGENDIAN
-uint64_t ByteSwap64(uint64_t words);
+uint64_t ByteSwap64(uint64_t words) {
     return  (( words       & 0xFF) << 56) |
             (((words >> 8) & 0xFF) << 48) |
             (((words >>16) & 0xFF) << 40) |
@@ -44,6 +44,7 @@ uint64_t ByteSwap64(uint64_t words);
             (((words >>40) & 0xFF) << 16) |
             (((words >>48) & 0xFF) <<  8) |
             (((words >>56) & 0xFF)      ) ;
+}
 
 void     words2bytes(uint8_t *dst,const uint64_t *src, uint16_t length) {
     uint16_t n;

@@ -100,7 +100,7 @@ void Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen, const uint8_t *key, uint
         memset(ctx->TF.key,0,64);        /* zero the initial chaining variables */
         Skein_Update(ctx,key,keyBytes);     /* hash the key */
         Skein_Final(ctx,cfg.b,0);         /* put result into cfg.b[] */
-        memcpy(ctx->TF.key,cfg.b,64);     /* copy over into ctx->TF.key[] */
+        bytes2words(ctx->TF.key,cfg.b,64);     /* copy over into ctx->TF.key[] */
         }
     /* build/process the config block, type == CONFIG (could be precomputed for each key) */
     ctx->hashBitLen = hashBitLen;             /* output hash bit count */
@@ -108,8 +108,8 @@ void Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen, const uint8_t *key, uint
     Skein_Start_New_Type(ctx,CFG_FINAL); // Set new tweak for final configuration
 
     memset(&cfg.w,0,64);             /* pre-pad cfg.w[] with zeroes */
-    cfg.w[0] = SKEIN_SCHEMA_VER; // 0x7f3bfc5
-    cfg.w[1] = hashBitLen;        /* hash result length in bits */
+    cfg.w[0] = ByteSwap64(SKEIN_SCHEMA_VER); // 0x7f3bfc5
+    cfg.w[1] = ByteSwap64(hashBitLen);        /* hash result length in bits */
     //cfg.w[2] = 0;  /* I don't need tree hashing */
 
     /* compute the initial chaining values from config block */
@@ -179,7 +179,7 @@ void Skein_Final(Skein_Ctxt_t *ctx, uint8_t *hashVal, int output) {
       if (output) {
         Skein_Output(ctx, hashVal, 0, 0);
       } else {
-        memcpy(hashVal,ctx->TF.key,64);   /* "output" the state bytes */
+        words2bytes(hashVal,ctx->TF.key,64);   /* "output" the state bytes */
       }
     }
 }
@@ -201,7 +201,7 @@ uint32_t Skein_Output(Skein_Ctxt_t *ctx, uint8_t *hashVal, uint32_t byteCnt, uin
   memset(ctx->b,0,64);  /* zero out b[], so it can hold the counter */
   memcpy(X,ctx->TF.key,64);       /* keep a local copy of counter mode "key" */
   for (i=0;i*64 < byteCnt;i++) {
-    ((uint64_t *)ctx->b)[0] = ((uint64_t) i + loopStart); /* build the counter block */
+    ((uint64_t *)ctx->b)[0] = ByteSwap64((uint64_t) i + loopStart); /* build the counter block */
     
     Skein_Start_New_Type(ctx,OUT_FINAL); // Set new tweak for final output
 
@@ -209,7 +209,7 @@ uint32_t Skein_Output(Skein_Ctxt_t *ctx, uint8_t *hashVal, uint32_t byteCnt, uin
     n = byteCnt - i*64;   /* number of output bytes left to go */
     if (n >= 64)
         n  = 64;
-    memcpy(hashVal+i*64,ctx->TF.key,n);   /* "output" the ctr mode bytes */
+    words2bytes(hashVal+i*64,ctx->TF.key,n);   /* "output" the ctr mode bytes */
     memcpy(ctx->TF.key,X,64);   /* restore the counter mode key for next time */
   }
   return (i + loopStart);
