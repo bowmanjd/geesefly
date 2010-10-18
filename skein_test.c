@@ -29,9 +29,13 @@ int main ()
 
     Threefish_Ctxt_t cipher_ctx;
 
-    memset(cipher_ctx.key, 0, 64);
+    for (i=0; i<8; i++) {
+        cipher_ctx.key[i] = i*2;
+        plainwords[i] = i;
+    }
+    //memset(cipher_ctx.key, 0, 64);
     memset(cipher_ctx.tweak, 0, 16);
-    memset(plainwords, 0, 64);
+    //memset(plainwords, 0, 64);
     Threefish_prep(&cipher_ctx);
     Threefish_encrypt(&cipher_ctx, plainwords, result, 0);
 
