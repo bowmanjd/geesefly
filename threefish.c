@@ -67,6 +67,7 @@ void     bytes2words(uint64_t *dst,const uint8_t *src, uint16_t length) {
                    (((uint64_t) src[n+7]) << 56) ;
     }
 #endif
+
 /* 64-bit rotate left */
 uint64_t RotL_64(uint64_t x, uint16_t N) {
   return (x << (N & 63)) | (x >> ((64-N) & 63));
