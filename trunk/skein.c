@@ -34,8 +34,8 @@ void Skein_Process_Block(Skein_Ctxt_t *ctx, const uint8_t *blkPtr,
     do  {
         ctx->TF.tweak[0] += byteCntAdd;  /* update processed length */
         bytes2words(w,blkPtr,8); /* copy input block */
-        Threefish_prep(&ctx->TF);
-        Threefish_encrypt(&ctx->TF, w, ctx->TF.key, 1);
+        tf_prep(&ctx->TF);
+        tf_encrypt(&ctx->TF, w, ctx->TF.key, 1);
         /* AND the first tweak value with (~SKEIN_T1_FLAG_FIRST) */
         ctx->TF.tweak[1] &= 0xbfffffffffffffffULL;
         blkPtr += 64;
