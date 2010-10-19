@@ -22,7 +22,7 @@ void print_words(uint64_t *words, uint16_t wordslen)
 
 void test_threefish_words_only() {
 	int i;
-	tf_ctx_t ctx;
+	struct tf_ctx ctx;
 	uint64_t plainwords[8];
 	uint64_t result[8];
 	uint64_t correct_result[8] = {
@@ -57,7 +57,7 @@ void test_threefish_words_only() {
 void test_skein_vectors()
 {
 	int i;
-	Skein_Ctxt_t ctx;
+	struct skein_ctx ctx;
 	uint8_t msg[128];
 	uint8_t result[64];
 	uint8_t correct_result1[64] = {

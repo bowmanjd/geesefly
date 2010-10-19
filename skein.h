@@ -21,25 +21,26 @@
 #include <stdint.h>
 #include "threefish.h"
 
-typedef struct {
+struct skein_ctx {
 	uint32_t  hashBitLen;
 	uint32_t  bCnt;
-	tf_ctx_t TF;
+	struct tf_ctx tf;
 	uint8_t   b[64];
-} Skein_Ctxt_t;
+};
 
-void  Skein_Process_Block(Skein_Ctxt_t *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd);
+void skein_new_type(struct skein_ctx *ctx, uint64_t type);
+void  Skein_Process_Block(struct skein_ctx *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd);
 
-void  Skein_Init(Skein_Ctxt_t *ctx, uint32_t hashBitLen, const uint8_t *key, uint32_t keyBytes);
+void  Skein_Init(struct skein_ctx *ctx, uint32_t hashBitLen, const uint8_t *key, uint32_t keyBytes);
 
-void  Skein_Update(Skein_Ctxt_t *ctx, const uint8_t *msg, uint32_t msgByteCnt);
+void  Skein_Update(struct skein_ctx *ctx, const uint8_t *msg, uint32_t msgByteCnt);
 
-void  Skein_Final (Skein_Ctxt_t *ctx, uint8_t * hashVal, int output);
+void  Skein_Final (struct skein_ctx *ctx, uint8_t * hashVal, int output);
 
-uint32_t Skein_Output(Skein_Ctxt_t *ctx, uint8_t *hashVal, uint32_t byteCnt, uint32_t loopStart);
+uint32_t Skein_Output(struct skein_ctx *ctx, uint8_t *hashVal, uint32_t byteCnt, uint32_t loopStart);
 
-void Skein_Rand_Seed(Skein_Ctxt_t *ctx, uint8_t *seed, uint32_t seedBytes);
-void Skein_Rand(Skein_Ctxt_t *ctx, uint32_t requestBytes, uint8_t *out);
+void Skein_Rand_Seed(struct skein_ctx *ctx, uint8_t *seed, uint32_t seedBytes);
+void Skein_Rand(struct skein_ctx *ctx, uint32_t requestBytes, uint8_t *out);
 
 /* "Internal" Skein definitions */
 #define KEY        (0)

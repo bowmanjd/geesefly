@@ -49,7 +49,7 @@ uint64_t rot_r64(uint64_t x, uint16_t N) {
 	return (x >> (N & 63)) | (x << ((64-N) & 63));
 }
 
-void tf_prep(tf_ctx_t *ctx)
+void tf_prep(struct tf_ctx *ctx)
 {
 	ctx->key[8] = ctx->key[0] ^ ctx->key[1] ^ ctx->key[2] ^
 			ctx->key[3] ^ ctx->key[4] ^ ctx->key[5] ^
@@ -57,7 +57,7 @@ void tf_prep(tf_ctx_t *ctx)
 	ctx->tweak[2] = ctx->tweak[0] ^ ctx->tweak[1];
 }
 
-void tf_encrypt(tf_ctx_t *ctx, const uint64_t *p,
+void tf_encrypt(struct tf_ctx *ctx, const uint64_t *p,
 					uint64_t *out, int feed)
 {
 	uint64_t X[8];
@@ -94,7 +94,7 @@ void tf_encrypt(tf_ctx_t *ctx, const uint64_t *p,
 	}
 }
 
-void tf_decrypt(tf_ctx_t *ctx, const uint64_t *c, uint64_t *out)
+void tf_decrypt(struct tf_ctx *ctx, const uint64_t *c, uint64_t *out)
 {
 	uint64_t X[8];
 	int8_t i,m,n,r,s,y;

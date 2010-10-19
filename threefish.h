@@ -21,18 +21,18 @@
 
 #include <stdint.h>
 
-typedef struct {
+struct tf_ctx {
 	uint8_t tf_rot_consts[32];
 	uint8_t tf_permut[32];
 	uint64_t key[9];
 	uint64_t tweak[3];
-} tf_ctx_t;
+};
 
 
-void tf_init(tf_ctx_t *ctx);
-void tf_prep(tf_ctx_t *ctx);
-void tf_encrypt(tf_ctx_t *ctx, const uint64_t *p, uint64_t *out, int feed);
-void tf_decrypt(tf_ctx_t *ctx, const uint64_t *c, uint64_t *out);
+void tf_init(struct tf_ctx *ctx);
+void tf_prep(struct tf_ctx *ctx);
+void tf_encrypt(struct tf_ctx *ctx, const uint64_t *p, uint64_t *out, int feed);
+void tf_decrypt(struct tf_ctx *ctx, const uint64_t *c, uint64_t *out);
 
 uint64_t rot_l64(uint64_t x, uint16_t N);
 uint64_t rot_r64(uint64_t x, uint16_t N);
