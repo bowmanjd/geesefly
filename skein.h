@@ -21,13 +21,12 @@
 #include <stdint.h>
 #include "threefish.h"
 
-typedef struct                           
-    {
-    uint32_t  hashBitLen;
-    uint32_t  bCnt;
-    Threefish_Ctxt_t TF;
-    uint8_t   b[64];
-    } Skein_Ctxt_t;
+typedef struct {
+	uint32_t  hashBitLen;
+	uint32_t  bCnt;
+	tf_ctx_t TF;
+	uint8_t   b[64];
+} Skein_Ctxt_t;
 
 void  Skein_Process_Block(Skein_Ctxt_t *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd);
 
