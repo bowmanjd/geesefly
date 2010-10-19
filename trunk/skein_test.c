@@ -95,9 +95,9 @@ void test_skein_vectors()
 		msg[i] = 255-i;
 	}
 
-	Skein_Init(&ctx, 512, NULL, 0);
-	Skein_Update(&ctx, msg, 1);
-	Skein_Final(&ctx, result, 1);
+	skein_init(&ctx, 512, NULL, 0);
+	skein_update(&ctx, msg, 1);
+	skein_final(&ctx, result, 1);
 	printf("Testing Skein one-byte test vector...\t");
 	if(memcmp(result, correct_result1, 64) == 0) {
 		printf("SUCCESS\n");
@@ -107,9 +107,9 @@ void test_skein_vectors()
 		printf("\n");
 	}
 	
-	Skein_Init(&ctx, 512, NULL, 0);
-	Skein_Update(&ctx, msg, 64);
-	Skein_Final(&ctx, result, 1);
+	skein_init(&ctx, 512, NULL, 0);
+	skein_update(&ctx, msg, 64);
+	skein_final(&ctx, result, 1);
 	printf("Testing Skein 64-byte test vector...\t");
 	if(memcmp(result, correct_result2, 64) == 0) {
 		printf("SUCCESS\n");
@@ -119,9 +119,9 @@ void test_skein_vectors()
 		printf("\n");
 	}
 
-	Skein_Init(&ctx, 512, NULL, 0);
-	Skein_Update(&ctx, msg, 128);
-	Skein_Final(&ctx, result, 1);
+	skein_init(&ctx, 512, NULL, 0);
+	skein_update(&ctx, msg, 128);
+	skein_final(&ctx, result, 1);
 	printf("Testing Skein 128-byte test vector...\t");
 	if(memcmp(result, correct_result3, 64) == 0) {
 		printf("SUCCESS\n");

@@ -1,18 +1,18 @@
 /*
-    skein.h
-    Copyright 2010 Jonathan Bowman
-  
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-  
-        http://www.apache.org/licenses/LICENSE-2.0
-  
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-    implied. See the License for the specific language governing
-    permissions and limitations under the License.
+ * skein.h
+ * Copyright 2010 Jonathan Bowman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
 */
 
 #ifndef _SKEIN_H_
@@ -29,18 +29,18 @@ struct skein_ctx {
 };
 
 void skein_new_type(struct skein_ctx *ctx, uint64_t type);
-void  Skein_Process_Block(struct skein_ctx *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd);
+void  skein_process_block(struct skein_ctx *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd);
 
-void  Skein_Init(struct skein_ctx *ctx, uint32_t hashBitLen, const uint8_t *key, uint32_t keyBytes);
+void  skein_init(struct skein_ctx *ctx, uint32_t hashBitLen, const uint8_t *key, uint32_t keyBytes);
 
-void  Skein_Update(struct skein_ctx *ctx, const uint8_t *msg, uint32_t msgByteCnt);
+void  skein_update(struct skein_ctx *ctx, const uint8_t *msg, uint32_t msgByteCnt);
 
-void  Skein_Final (struct skein_ctx *ctx, uint8_t * hashVal, int output);
+void  skein_final (struct skein_ctx *ctx, uint8_t * hashVal, int output);
 
-uint32_t Skein_Output(struct skein_ctx *ctx, uint8_t *hashVal, uint32_t byteCnt, uint32_t loopStart);
+uint32_t skein_output(struct skein_ctx *ctx, uint8_t *hashVal, uint32_t byteCnt, uint32_t loopStart);
 
-void Skein_Rand_Seed(struct skein_ctx *ctx, uint8_t *seed, uint32_t seedBytes);
-void Skein_Rand(struct skein_ctx *ctx, uint32_t requestBytes, uint8_t *out);
+void skein_rand_seed(struct skein_ctx *ctx, uint8_t *seed, uint32_t seedBytes);
+void skein_rand(struct skein_ctx *ctx, uint32_t requestBytes, uint8_t *out);
 
 /* "Internal" Skein definitions */
 #define KEY        (0)
