@@ -22,25 +22,32 @@
 #include "threefish.h"
 
 struct skein_ctx {
-	uint32_t  hashBitLen;
-	uint32_t  bCnt;
+	uint32_t  digest_bits;
+	uint32_t  b_cnt;
 	struct tf_ctx tf;
 	uint8_t   b[64];
 };
 
 void skein_new_type(struct skein_ctx *ctx, uint64_t type);
-void  skein_process_block(struct skein_ctx *ctx,const uint8_t *blkPtr,uint32_t blkCnt,uint32_t byteCntAdd);
 
-void  skein_init(struct skein_ctx *ctx, uint32_t hashBitLen, const uint8_t *key, uint32_t keyBytes);
+void skein_process_block(struct skein_ctx *ctx, const uint8_t *blk_ptr,
+				uint32_t blk_cnt, uint32_t byte_len);
 
-void  skein_update(struct skein_ctx *ctx, const uint8_t *msg, uint32_t msgByteCnt);
+void skein_rand_seed(struct skein_ctx *ctx, uint8_t *seed,
+					uint32_t seed_bytes);
 
-void  skein_final (struct skein_ctx *ctx, uint8_t * hashVal, int output);
+void skein_rand(struct skein_ctx *ctx, uint32_t request_bytes, uint8_t *out);
 
-uint32_t skein_output(struct skein_ctx *ctx, uint8_t *hashVal, uint32_t byteCnt, uint32_t loopStart);
+void skein_init(struct skein_ctx *ctx, uint32_t digest_bits,
+			const uint8_t *key, uint32_t key_len);
 
-void skein_rand_seed(struct skein_ctx *ctx, uint8_t *seed, uint32_t seedBytes);
-void skein_rand(struct skein_ctx *ctx, uint32_t requestBytes, uint8_t *out);
+void skein_update(struct skein_ctx *ctx, const uint8_t *msg,
+					uint32_t msg_len);
+
+void skein_final(struct skein_ctx *ctx, uint8_t *result, int output);
+
+uint32_t skein_output(struct skein_ctx *ctx, uint8_t *result,
+			uint32_t digest_size, uint32_t count);
 
 /* "Internal" Skein definitions */
 #define KEY        (0)
@@ -57,6 +64,6 @@ void skein_rand(struct skein_ctx *ctx, uint32_t requestBytes, uint8_t *out);
 
 #define SKEIN_MK_64(hi32,lo32)  ((lo32) + (((uint64_t) (hi32)) << 32))
 #define SKEIN_SCHEMA_VER        SKEIN_MK_64(SKEIN_VERSION,SKEIN_ID_STRING_LE)
-#define SKEIN_KS_PARITY         SKEIN_MK_64(0x55555555,0x55555555)
+#define SKEIN_KS_PARITY         (0x5555555555555555ULL)
 
 #endif  /* ifndef _SKEIN_H_ */
