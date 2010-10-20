@@ -100,8 +100,8 @@ void skein_init(struct skein_ctx *ctx, uint32_t digest_bits,
 	skein_new_type(ctx,CFG_FINAL); // Set new tweak for final configuration
 
 	memset(&cfg.w,0,64);			 /* pre-pad cfg.w[] with zeroes */
-	cfg.w[0] = ByteSwap64(SKEIN_SCHEMA_VER); // 0x7f3bfc5
-	cfg.w[1] = ByteSwap64(digest_bits);		/* hash result length in bits */
+	cfg.w[0] = byte_swap64(SKEIN_SCHEMA_VER); // 0x7f3bfc5
+	cfg.w[1] = byte_swap64(digest_bits);		/* hash result length in bits */
 
 	/* compute the initial chaining values from config block */
 	skein_process_block(ctx,cfg.b,1,32);
@@ -181,7 +181,7 @@ uint32_t skein_output(struct skein_ctx *ctx, uint8_t *result,
 	memset(ctx->b,0,64);  /* zero out b[], so it can hold the counter */
 	memcpy(state,ctx->tf.key,64);  /* keep a local copy of counter mode "key" */
 	for (i=0;i*64 < digest_size;i++) {
-		((uint64_t *)ctx->b)[0] = ByteSwap64((uint64_t) i + count); /* build the counter block */
+		((uint64_t *)ctx->b)[0] = byte_swap64((uint64_t) i + count); /* build the counter block */
 		
 		skein_new_type(ctx,OUT_FINAL); // Set new tweak for final output
 

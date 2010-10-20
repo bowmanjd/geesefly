@@ -51,19 +51,12 @@ uint32_t skein_output(struct skein_ctx *ctx, uint8_t *result,
 
 /* "Internal" Skein definitions */
 #define KEY        (0)
-#define NONCE      ((uint64_t) 21 << 58)
-#define MSG        ((uint64_t) 7 << 60)
-#define CFG_FINAL  ((uint64_t) 49 << 58)
-#define OUT_FINAL  ((uint64_t) 255 << 56)
+#define NONCE      (0x5400000000000000ULL)
+#define MSG        (0x7000000000000000ULL)
+#define CFG_FINAL  (0xc400000000000000ULL)
+#define OUT_FINAL  (0xff00000000000000ULL)
 
-#define SKEIN_VERSION           (1)
-
-#ifndef SKEIN_ID_STRING_LE      /* allow compile-time personalization */
-#define SKEIN_ID_STRING_LE      (0x33414853)            /* "SHA3" (little-endian)*/
-#endif
-
-#define SKEIN_MK_64(hi32,lo32)  ((lo32) + (((uint64_t) (hi32)) << 32))
-#define SKEIN_SCHEMA_VER        SKEIN_MK_64(SKEIN_VERSION,SKEIN_ID_STRING_LE)
+#define SKEIN_SCHEMA_VER        (0x133414853ULL)
 #define SKEIN_KS_PARITY         (0x5555555555555555ULL)
 
 #endif  /* ifndef _SKEIN_H_ */

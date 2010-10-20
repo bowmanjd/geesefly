@@ -13,7 +13,7 @@
 #endif
 
 #ifdef BIGENDIAN
-uint64_t ByteSwap64(uint64_t words)
+uint64_t byte_swap64(uint64_t words)
 {
 	return  ((words & 0xFF) << 56) |
 		(((words >> 8) & 0xFF) << 48) |
@@ -48,7 +48,7 @@ void bytes2words(uint64_t *dst,const uint8_t *src, uint16_t length)
 			   (((uint64_t) src[n+7]) << 56);
 }
 #else
-#define ByteSwap64(words)  (words)
+#define byte_swap64(words)  (words)
 #define words2bytes(dst08,src64,bCnt) memcpy(dst08,src64,bCnt)
 #define bytes2words(dst64,src08,wCnt) memcpy(dst64,src08,8*(wCnt))
 #endif
