@@ -1,4 +1,6 @@
-"vimrc: au BufEnter *.c,*.h,*.cpp,*.hpp,*.cc source ~/.vim/c.vim
+"Uncomment and put the following line in ~/.vimrc
+"au BufEnter *.c,*.h,*.cpp,*.hpp,*.cc source ~/.vim/c.vim
+"Then place this file in ~/.vim
 set noexpandtab                
 set tabstop=8                  
 set shiftwidth=8               
@@ -25,4 +27,4 @@ endif
 
 set formatoptions=tcqlron
 set cinoptions=:0,l1,t0,g0
-set foldmethod=syntax
+"set foldmethod=syntax
