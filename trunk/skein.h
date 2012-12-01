@@ -57,6 +57,6 @@ uint32_t skein_output(struct skein_ctx *ctx, uint8_t *result,
 #define OUT_FINAL  (0xff00000000000000ULL)
 
 #define SKEIN_SCHEMA_VER        (0x133414853ULL)
-#define SKEIN_KS_PARITY         (0x5555555555555555ULL)
+#define SKEIN_KS_PARITY         (0x1BD11BDAA9FC1A22ULL)
 
 #endif  /* ifndef _SKEIN_H_ */
