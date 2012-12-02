@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <string.h>
 #include "skein.h"
 #include "threefish.h"
@@ -16,7 +17,7 @@ void print_words(uint64_t *words, uint16_t wordslen)
 {
 	int i;
 	for (i=0; i<wordslen; i++) {
-		printf("0x%llx,", words[i]);
+		printf("0x%"PRIx64",", words[i]);
 	}
 }
 
